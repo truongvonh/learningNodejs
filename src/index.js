@@ -14,5 +14,3 @@ http.createServer(function (req, res) {
   res.write(`server is ruung and ${PORT}` );
   res.end();
 }).listen(PORT);
-
-console.log('abc');
