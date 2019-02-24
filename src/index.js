@@ -1,16 +1,10 @@
-var http = require('http');
-var url = require('url');
+let fileManager = require('./fileManager');
+const file = __dirname+'/../data/test.txt';
+const newFileContent = 'File này đã được chỉnh sửa toàn bộ';
 
-const PORT = '8080';
+console.log('working with file');
 
-http.createServer(function (req, res) {
-  res.writeHead(200, {'Content-Type': 'text/html'});
-  // get ip address
-  // const ipAddress = res.socket.remoteAddress;
-  // res.write(ipAddress)
-  // using query string url
-  var query = url.parse(req.url, true).query;
-  var txt = query.year + " " + query.month;
-  res.write(`server is ruung and ${PORT}` );
-  res.end();
-}).listen(PORT);
+// fileManager.createNewFile(file,fileContent);
+// fileManager.readFile(file);
+// fileManager.updateFile(file,newFileContent);
+fileManager.deleteFile(file);
