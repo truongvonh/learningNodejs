@@ -1,27 +1,5 @@
 {
-  "name": "learningnodejs",
-  "version": "1.0.0",
-  "description": "This is learning nodejs",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/TruongNhatVo/learningNodejs.git"
-  },
-  "keywords": [
-    "learning",
-    "nodejs"
-  ],
-  "author": "Vo Nhat Truong",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/TruongNhatVo/learningNodejs/issues"
-  },
-  "homepage": "https://github.com/TruongNhatVo/learningNodejs#readme",
   "dependencies": {
-    "http": "^0.0.0",
-    "morgan": "^1.9.1"
+    "mongoose": "^5.4.17"
   }
 }
