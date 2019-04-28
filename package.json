@@ -1,27 +1,22 @@
 {
-  "name": "learningnodejs",
+  "name": "nodejstutorial",
   "version": "1.0.0",
-  "description": "This is learning nodejs",
+  "description": "This is a tutorial project",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start1": "babel-node src/index.js",
+    "start": "nodemon src/index.js --exec babel-node",
+    "build": "babel src -d distribution",
+    "serve": "node distribution/index.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/TruongNhatVo/learningNodejs.git"
-  },
-  "keywords": [
-    "learning",
-    "nodejs"
-  ],
-  "author": "Vo Nhat Truong",
+  "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/TruongNhatVo/learningNodejs/issues"
-  },
-  "homepage": "https://github.com/TruongNhatVo/learningNodejs#readme",
-  "dependencies": {
-    "http": "^0.0.0",
-    "morgan": "^1.9.1"
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "express": "^4.16.4",
+    "nodemon": "^1.11.0"
   }
 }
