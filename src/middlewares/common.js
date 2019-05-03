@@ -1,4 +1,4 @@
-import { isEmpty } from 'validator/'
+import { isEmpty } from 'validator'
 import { jsonError } from '../utils/result'
 
 export const valueRequired = (val) => {
@@ -12,3 +12,12 @@ export const valueRequired = (val) => {
     return next()
   }
 };
+
+export const isNumber = (val) => {
+  return (req, res, next) => {
+    if (Number.isInteger(val))
+      next()
+    return res.json(jsonError('value is not valid'))
+  }
+}
+

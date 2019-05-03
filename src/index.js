@@ -10,7 +10,7 @@ const sequelize = db.sequelize
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
-app.get('/', (req, res) => res.send('Hello World! abcd'))
+app.get('/', (req, res) => res.json('Hello World! abcd'))
 app.use('/task', taskRouter)
 
 app.listen(port, 
