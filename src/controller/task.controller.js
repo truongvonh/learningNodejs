@@ -12,7 +12,7 @@ export const getTasksController = async (req, res) => {
       res.json(jsonError('no data'))
     else res.json(jsonSuccess(data))
   } catch (err) {
-    res.json(jsonError(err))
+    res.json(jsonError('network error'))
   }
 }
 
@@ -22,7 +22,7 @@ export const addTaskController = async (req, res) => {
     await Tasks.create({ name, status: (status || false) })
     res.json(jsonSuccess('create success'))
   } catch (error) {
-    res.json(jsonError(error))
+    res.json(jsonError('network error'))
   }
 }
 
@@ -33,7 +33,7 @@ export const deleteTaskController = async (req, res) => {
     if (!result) res.json(jsonError('not found item to delete'))
     else res.json(jsonSuccess('success'))
   } catch (error) {
-    res.json(jsonError(error))
+    res.json(jsonError('network error'))
   }
 }
 
@@ -47,6 +47,6 @@ export const updateTaskController = async (req, res) => {
     if (!result[0]) res.json(jsonError('not found item to update'))
     else res.json(jsonSuccess('success'))
   } catch (error) {
-    res.json(jsonError(error))
+    res.json(jsonError('network error'))
   }
 }

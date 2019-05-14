@@ -5,23 +5,28 @@ import {
   deleteTaskController,
   updateTaskController
 } from './../controller/task.controller'
-import { valueRequired, isNumber } from '../middlewares/common';
+import { valueRequired, isNumber } from '../middlewares/common'
+import { verifyToken } from '../middlewares/verifyToken'
 
 const taskRouter = Router()
 
-taskRouter.get('/', getTasksController)
+taskRouter.get('/', verifyToken, getTasksController )
 
 taskRouter.post('/',
-  (req, res, next) => valueRequired([req.body.name])(req, res, next),
+  [
+    (req, res, next) => valueRequired([req.body.name])(req, res, next),
+    verifyToken
+  ],
   addTaskController
 )
 
-taskRouter.put('/', updateTaskController)
+taskRouter.put('/', verifyToken, updateTaskController)
 
 taskRouter.delete('/',
   [
     (req, res, next) => isNumber([req.body.id])(req, res, next),
-    (req, res, next) => valueRequired([req.body.id])(req, res, next)
+    (req, res, next) => valueRequired([req.body.id])(req, res, next),
+    verifyToken
   ],
   deleteTaskController
 )
