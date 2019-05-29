@@ -1,13 +1,15 @@
 import express from 'express'
 import bodyParser from 'body-parser'
+import cors from 'cors'
+import dotenv from 'dotenv'
 import db from './db/models'
 import taskRouter from './routes/task.routes'
 import authRouter from './routes/auth.routes'
-// const cors = require('cors');
-import cors from 'cors'
 import { corsOptions } from './utils/common';
 
-import dotenv from 'dotenv'
+import { startCrawl } from './services/crawler';
+
+
 dotenv.config()
 
 const app = express()
@@ -21,6 +23,7 @@ app.use(cors(corsOptions))
 app.get('/', (req, res) => res.json('Hello World! abcd'))
 app.use('/task', taskRouter)
 app.use('/auth', authRouter)
+startCrawl();
 
 app.listen(port,
   () => {
