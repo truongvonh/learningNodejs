@@ -27,53 +27,63 @@ const prepareToPage = async (page) => {
 }
 
 const getUserName = async page => {
-  const groupAvatar = await page.waitForSelector('.profile-avatar')
   await page.waitForSelector('.profile-avatar h5')
-  await page.waitFor(1500)
+  const groupAvatar = await page.waitForSelector('.profile-avatar')
   const userName = await groupAvatar.$eval('h5', h5 => h5.innerText)
   return Promise.resolve(userName)
 }
 
 const getSkillname = async page => {
-  const skillItem = await page.waitForSelector('.progressBar')
-  const waitEl = await page.waitForSelector('.progressBar  .fieldName')
-  await page.waitFor(1500)
-  const skillName = await skillItem.$eval('h6', h6 => h6.innerText)
-  return Promise.resolve(skillName)
+  try {
+    await page.waitForSelector('.progressBar  .fieldName')
+    const skillItem = await page.waitForSelector('.progressBar')
+    const skillName = await skillItem.$eval('h6', h6 => h6.innerText)
+    return Promise.resolve(skillName)
+  } catch (error) {
+    console.log('skill name not found')
+  }
 }
 
 const getSkillPoint = async page => {
-  const pointItem = await page.waitForSelector('.customBar')
-  await page.waitForSelector('.customBar  .progress-bar')
-  const point = await pointItem.$eval('div', div => div.innerText)
-  return Promise.resolve(point)
+  try {
+    const pointItem = await page.waitForSelector('.customBar')
+    await page.waitForSelector('.customBar  .progress-bar')
+    const point = await pointItem.$eval('div', div => div.innerText)
+    return Promise.resolve(point)
+  } catch (error) {
+    console.log('no skill point found')
+  }
 }
 
 const getUserSkill = async page => {
   const skills = []
-  await page.waitForSelector('.tabs button')
-  const tab = await page.$$('.tabs button')
-  tab[1].click()
-  const data = await page.waitForSelector('.profile-content', { timeout: 1000 })
-  await page.waitFor(2000)
-  const progressBar = await page.$$('.skills-area .progressBar')
+  try {
+    await page.waitForSelector('.tabs button')
+    const tab = await page.$$('.tabs button')
+    tab[1].click()
+    const data = await page.waitForSelector('.profile-content', { timeout: 2000 })
+    const progressBar = await page.$$('.skills-area .progressBar')
 
-  if (progressBar && data) {
-    for (let i = 0; i < progressBar.length; i++) {
-      const data = await Promise.all([getSkillname(page), getSkillPoint(page)])
-      skills.push({
-        skillName: data[0],
-        point: data[1]
-      })
+    if (progressBar && data) {
+      for (let i = 0; i < progressBar.length; i++) {
+        const data = await Promise.all([getSkillname(page), getSkillPoint(page)])
+        skills.push({
+          skillName: data[0],
+          point: data[1]
+        })
+      }
+      return Promise.resolve(skills)
     }
+  } catch (error) {
+    console.log('no skill data')
   }
-  return Promise.resolve(skills)
 }
 
 const getDataPerPage = async (page) => {
-  const userName = await getUserName(page)
-  const skill = await getUserSkill(page)
-  return Promise.resolve({ userName, skill})
+  const data = await Promise.all([getUserName(page), getUserSkill(page)])
+  if (data) {
+    return Promise.resolve({ userName: data[0], skill: data[1] })
+  }
 }
 
 const goToProfilePage = async (page) => {
@@ -91,15 +101,19 @@ const countValue = async (page) => {
     }
     const data = await getDataPerPage(page)
     result.push(data)
+    await page.goto(urlProfile(i))
     console.log("TCL: intervalId -> result", i, result)
-    await page.goto(urlProfile(i++))
     i++
   }, 5000)
 }
 
 export const startCrawl = async () => {
   try {
-    const browser = await puppeteer.launch({ headless: false })
+    const browser = await puppeteer.launch({ 
+      headless: false,
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    })
+
     const page = await browser.newPage()
     await page.goto(urlCrawl)
 
