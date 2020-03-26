@@ -4,19 +4,19 @@ import db from './db/models'
 import taskRouter from './routes/task.routes'
 
 const app = express()
-const port = 5000 
+const port = 5000
 const sequelize = db.sequelize
 
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 
 app.get('/', (req, res) => res.json('Hello World! abcd'))
 app.use('/task', taskRouter)
 
-app.listen(port, 
+app.listen(port,
   () => {
     sequelize
-      .sync({ force: false })
+      .sync({force: false})
       .then(msg => msg)
   }
 )
